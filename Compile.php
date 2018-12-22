@@ -3,17 +3,7 @@ echo '';
 function generateRandomString($length = 16) {
     return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
 }
-
 $rand = generateRandomString();
-
-
-
-
-
-
-
-
-
 $target_dir = "uploads/";
 $target_file = $target_dir .$rand . '/' . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
@@ -38,9 +28,12 @@ if ($uploadOk == 0) {
 
 $testpy = basename( $_FILES["fileToUpload"]["name"]);
 $testexe = $testpy;
-$testexe = str_replace("py", "exe", $testexe);
+$testexe = substr($testexe,0,-2) . "exe";
+echo $testexe;
+$path = "E:\wamp64\www\uploads/" . $rand . "/";
+
 if ($uploadOk != 0) {
-	shell_exec("pyinstaller --distpath E:\wamp64\www\uploads/" . $rand . '/' . " --onefile E:\wamp64\www\uploads/" . $rand . '/' . $testpy);
+	shell_exec("e:&&cd E:\wamp64\www\uploads/" . $rand . "&&pyinstaller --distpath ". $path . " --onefile ".$path . $testpy);	
 }
 if ($uploadOk != 0) {
 	echo '
@@ -52,7 +45,6 @@ body {
 }
 </style>
 <h2>Thank you for using Python2exe.com</h2>
-
 	<a href="'."uploads/". $rand . '/' .$testexe.'">'.$testexe.'</a>';
 }
 ?>
